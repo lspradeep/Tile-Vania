@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     Animator playerAnimator;
     float defaultPlayerGravity = 0f;
     GameManager gameManager;
+    public bool isPlayerAlive = true;
 
     void Start()
     {
@@ -25,10 +26,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Run();
-        FlipCharacter();
-        ClimbLadder();
-        gameManager.updatePlayerTransfrom(transform);
+        if (isPlayerAlive)
+        {
+            Run();
+            FlipCharacter();
+            ClimbLadder();
+            gameManager.updatePlayerTransfrom(transform);
+        }
+        else
+        {
+            Death();
+        }
+        
     }
 
     void OnMove(InputValue inputValue)
@@ -44,6 +53,14 @@ public class PlayerMovement : MonoBehaviour
         if (inputValue.isPressed && isPlayerOnGround)
         {
             playerRB.velocity = new Vector2(0, jumpForce);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag.Equals("Enemy"))
+        {
+            isPlayerAlive = false;
         }
     }
 
@@ -77,5 +94,10 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRB.gravityScale = defaultPlayerGravity;
         }
+    }
+
+    void Death()
+    {
+        playerAnimator.SetTrigger("isPlayerDead");
     }
 }
