@@ -14,7 +14,10 @@ public class PlayerMovement : MonoBehaviour
     Animator playerAnimator;
     float defaultPlayerGravity = 0f;
     GameManager gameManager;
-    public bool isPlayerAlive = true;
+    bool isPlayerAlive = true;
+    CapsuleCollider2D playerBodyCollider;
+    BoxCollider2D playerFeetCollider;
+    private bool _isAlive = true;
 
     void Start()
     {
@@ -22,53 +25,61 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         defaultPlayerGravity = playerRB.gravityScale;
         gameManager = FindObjectOfType<GameManager>();
+        playerBodyCollider = GetComponent<CapsuleCollider2D>();
+        playerFeetCollider = GetComponent<BoxCollider2D>();
     }
 
     void Update()
     {
-        if (isPlayerAlive)
+        if (!isPlayerAlive)
         {
-            Run();
-            FlipCharacter();
-            ClimbLadder();
-            gameManager.updatePlayerTransfrom(transform);
+            return;
         }
-        else
+        Run();
+        FlipCharacter();
+        ClimbLadder();
+        gameManager.updatePlayerTransfrom(transform);
+        Death();
+    }
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag.Equals("Enemy") && isPlayerAlive)
         {
-            Death();
+            _isAlive = false;
         }
-        
     }
 
     void OnMove(InputValue inputValue)
     {
-        
+
+        if (isPlayerAlive)
+        {
             moveInput = inputValue.Get<Vector2>();
-        
+        }
+
     }
 
     void OnJump(InputValue inputValue)
     {
-        bool isPlayerOnGround = playerRB.IsTouchingLayers(LayerMask.GetMask("Platform"));
-        if (inputValue.isPressed && isPlayerOnGround)
+        if (isPlayerAlive)
         {
-            playerRB.velocity = new Vector2(0, jumpForce);
+            bool isPlayerFeetOnGround = playerFeetCollider.IsTouchingLayers(LayerMask.GetMask("Platform"));
+            if (inputValue.isPressed && isPlayerFeetOnGround)
+            {
+                playerRB.velocity = new Vector2(0, jumpForce);
+            }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.tag.Equals("Enemy"))
-        {
-            isPlayerAlive = false;
-        }
     }
 
     void Run()
     {
 
         playerRB.velocity = new Vector2(moveInput.x * horizontalSpeed, playerRB.velocity.y);
-        bool isPlayerRunning = Mathf.Abs(playerRB.velocity.x)  > Mathf.Epsilon;
+        bool isPlayerRunning = Mathf.Abs(playerRB.velocity.x) > Mathf.Epsilon;
         playerAnimator.SetBool("isRunning", isPlayerRunning);
 
     }
@@ -83,8 +94,8 @@ public class PlayerMovement : MonoBehaviour
 
     void ClimbLadder()
     {
-        bool isPlayerOnLadder = playerRB.IsTouchingLayers(LayerMask.GetMask("Climbing"));
-        playerAnimator.SetBool("isClimbing", isPlayerOnLadder && (Mathf.Abs(playerRB.velocity.y)>Mathf.Epsilon));
+        bool isPlayerOnLadder = playerFeetCollider.IsTouchingLayers(LayerMask.GetMask("Climbing"));
+        playerAnimator.SetBool("isClimbing", isPlayerOnLadder && (Mathf.Abs(playerRB.velocity.y) > Mathf.Epsilon));
         if (isPlayerOnLadder)
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, moveInput.y * climbSpeed);
@@ -98,6 +109,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Death()
     {
-        playerAnimator.SetTrigger("isPlayerDead");
+        isPlayerAlive = _isAlive;
+        if (!isPlayerAlive)
+        {
+            playerAnimator.SetTrigger("isPlayerDead");
+        }
+        gameManager.isPlayerAlive = isPlayerAlive;
     }
 }

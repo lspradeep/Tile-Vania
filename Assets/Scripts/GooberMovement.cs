@@ -20,6 +20,10 @@ public class GooberMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gameManager.isPlayerAlive)
+        {
+            gooberSpeed = 0f;
+        }
         playerTransfrom = gameManager.getPlayerTransfrom();
     }
 

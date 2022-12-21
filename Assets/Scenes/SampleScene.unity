@@ -577,6 +577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b3339a69556840da98c9e04e21056e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerAlive: 1
 --- !u!4 &817870852
 Transform:
   m_ObjectHideFlags: 0
@@ -12186,10 +12187,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 626092376, guid: b732c24cf8a1549ab882945df9a4f501, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3002594327113689806, guid: b732c24cf8a1549ab882945df9a4f501, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -12262,7 +12259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6749579405423924093, guid: ea50d4443c7954282a3cf4572ccf3763, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.07
+      value: 6.77
       objectReference: {fileID: 0}
     - target: {fileID: 6749579405423924093, guid: ea50d4443c7954282a3cf4572ccf3763, type: 3}
       propertyPath: m_LocalPosition.y

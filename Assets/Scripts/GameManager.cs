@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     private Transform playerTransform;
+    public bool isPlayerAlive = true;
 
     // Start is called before the first frame update
     void Start()
