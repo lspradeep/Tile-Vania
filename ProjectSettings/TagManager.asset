@@ -57,6 +57,9 @@ TagManager:
   - name: Spikes
     uniqueID: 4219243249
     locked: 0
+  - name: Sign
+    uniqueID: 2536169553
+    locked: 0
   - name: Platform
     uniqueID: 2003553013
     locked: 0
