@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         playerFeetCollider = GetComponent<BoxCollider2D>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (!isPlayerAlive)
         {
@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerRB.velocity = new Vector2(moveInput.x * horizontalSpeed, playerRB.velocity.y);
         bool isPlayerRunning = Mathf.Abs(playerRB.velocity.x) > Mathf.Epsilon;
+        print("isPlayerRunning " + isPlayerRunning);
         playerAnimator.SetBool("isRunning", isPlayerRunning);
 
     }
