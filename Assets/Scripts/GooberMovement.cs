@@ -15,6 +15,13 @@ public class GooberMovement : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         gooberRB = GetComponent<Rigidbody2D>();
+        StartCoroutine(SelfDeath());
+    }
+
+    IEnumerator SelfDeath()
+    {
+        yield return new WaitForSecondsRealtime(40);
+        Destroy(gameObject);
     }
 
     // Update is called once per frame

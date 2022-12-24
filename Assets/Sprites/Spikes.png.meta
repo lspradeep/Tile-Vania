@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -143,15 +143,19 @@ TextureImporter:
       name: Spikes_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 1
         y: 0
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 0, z: 1, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: -8.5}
+        - {x: 1, y: 8.5}
+        - {x: 2, y: 8.5}
+        - {x: 8, y: -8.5}
       tessellationDetail: 0
       bones: []
       spriteID: f622eaa4825d34021833310d17622810
@@ -164,15 +168,19 @@ TextureImporter:
       name: Spikes_1
       rect:
         serializedVersion: 2
-        x: 19
+        x: 18
         y: 0
-        width: 11
-        height: 17
+        width: 13
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 1, y: 0, z: 1, w: 1}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -6.5, y: -9}
+        - {x: 0.5, y: 8}
+        - {x: 1.5, y: 8}
+        - {x: 6.5, y: -9}
       tessellationDetail: 0
       bones: []
       spriteID: 43a29a2173a5e4d7784039ad0880c1f4

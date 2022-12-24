@@ -7,17 +7,15 @@ public class GameManager : MonoBehaviour
 
     private Transform playerTransform;
     public bool isPlayerAlive = true;
+    private GameManager gameManager;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int count = FindObjectsOfType<GameManager>().Length;
+        if (count > 1)
+        {
+            Destroy(this);
+        }
     }
 
     public void updatePlayerTransfrom(Transform transform)

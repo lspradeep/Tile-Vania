@@ -17,7 +17,9 @@ public class PlayerMovement : MonoBehaviour
     bool isPlayerAlive = true;
     CapsuleCollider2D playerBodyCollider;
     BoxCollider2D playerFeetCollider;
-    private bool _isAlive = true;
+
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform bulletPosition;
 
     void Start()
     {
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         playerFeetCollider = GetComponent<BoxCollider2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!isPlayerAlive)
         {
@@ -43,12 +45,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnFire(InputValue inputValue)
     {
-        if (collision.collider.tag.Equals("Enemy") && isPlayerAlive)
+        if (isPlayerAlive)
         {
-            _isAlive = false;
+            Instantiate(bullet, bulletPosition.position,transform.rotation);
         }
     }
 
@@ -109,9 +110,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Death()
     {
-        isPlayerAlive = _isAlive;
+        if (playerBodyCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Spikes"))
+            || playerFeetCollider.IsTouchingLayers(LayerMask.GetMask("Enemy", "Spikes")))
+        {
+            isPlayerAlive = false;
+        }
         if (!isPlayerAlive)
         {
+            playerRB.velocity = new Vector2(playerRB.velocity.x, 20f);
             playerAnimator.SetTrigger("isPlayerDead");
         }
         gameManager.isPlayerAlive = isPlayerAlive;
